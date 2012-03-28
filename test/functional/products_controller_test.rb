@@ -52,4 +52,17 @@ class ProductsControllerTest < ActionController::TestCase
 
     assert_redirected_to products_path
   end
+
+  test "should get maitenance" do
+    get :index
+    assert_response :success
+
+    assert_select '#main .list_line_odd', 2   
+    assert_select '#main .list_line_even', 1
+    assert_select '.list_line_odd td', 6
+    assert_select '.list_line_even td', 3
+    assert_select '.list_actions a', 'Show'
+    assert_select '.list_actions a', 'Edit'
+    assert_select '.list_actions a', 'Destroy'
+  end
 end
