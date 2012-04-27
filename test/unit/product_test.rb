@@ -57,4 +57,24 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal "has already been taken", product.errors[:title].join('; ')
   end
 
+  test "product price is too high" do
+    product = Product.new(title: products(:ruby).title,
+                          description: "too high",
+                          price: 1000001,
+                          image_url: "fred.gif")
+    assert !product.save
+    assert_equal "Price is too high", product.errors[:price].join('; ')  
+  end
+
+  test "duplicated product url" do
+    product = products(:ruby)
+    product.save
+    
+    productUrlDuplicated = products(:one)
+    productUrlDuplicated.image_url = product.image_url
+
+    assert productUrlDuplicated.invalid?
+    assert_equal "has already been taken", productUrlDuplicated.errors[:image_url].join('; ')
+  end
+
 end

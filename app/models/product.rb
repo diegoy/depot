@@ -9,6 +9,9 @@ class Product < ActiveRecord::Base
     with: %r{\.(gif|jpg|png)$}i,
     message: 'must be a URL for GIF, JPG or PNG image.'
   }
+  validates :image_url, uniqueness: true
+  validate  :must_not_exceed_one_million
+  
 
   private
     #ensure that there are no line items referencing this product
@@ -17,6 +20,15 @@ class Product < ActiveRecord::Base
         return true
       else
         errors.add(:base, 'Line Items present')
+        return false
+      end
+    end
+
+    def must_not_exceed_one_million 
+      if price == nil || price <= 1000000
+        return true
+      else
+        errors.add(:price, 'Price is too high')
         return false
       end
     end
