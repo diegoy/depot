@@ -76,12 +76,29 @@ class LineItemsController < ApplicationController
   # DELETE /line_items/1
   # DELETE /line_items/1.json
   def destroy
+    @cart = current_cart
     @line_item = LineItem.find(params[:id])
     @line_item.destroy
 
     respond_to do |format|
-      format.html { redirect_to current_cart, notice: 'Entry Removed sucessfully'}
+      format.html { redirect_to current_cart }
+      format.js { @current_item = @line_item }
       format.json { head :no_content }
+    end
+  end
+
+  def decrement
+    @cart = current_cart
+    @line_item = @cart.decrement_product(params[:id])
+    respond_to do |format|
+      if @line_item.save
+        format.html { redirect_to store_path }
+        format.js { @current_item = @line_item }
+      else
+        format.html { render action: "edit" }
+        format.js { @current_item = @line_item }
+        format.json { render json: @line_item.errors, status: :unprocessable_entity }
+      end
     end
   end
 end
