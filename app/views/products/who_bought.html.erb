@@ -1,0 +1,22 @@
+<h1>Who Bought!?</h1>
+<% latest_order = @product.orders.sort_by(&:updated_at).last %>
+
+
+<div class="who_bought">
+<% @product.orders.each do |order|%>
+  <div>
+    <h3>Order <%=order.id%></h3>
+    <h4><%=order.name%> - <%=order.email%></h4>
+    <p> Shipped to <%=order.address%> </p>
+    <div class="summary">
+      <% order.line_items.each do |line_item| %>
+        <div><b>Title: <%=line_item.product.title%></b></div>
+        <div>Quantity: <%=line_item.quantity%></div>
+        <div>Item Price: <%=number_to_currency line_item.total_price %></div>
+      <%end%>
+      <div> Total Price: <%= number_to_currency order.line_items.map(&:total_price).sum %></div>
+    </div>
+  </div>
+  <hr>
+<%end%>
+</div>
