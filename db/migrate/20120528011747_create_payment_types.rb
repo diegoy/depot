@@ -20,7 +20,6 @@ class CreatePaymentTypes < ActiveRecord::Migration
                                 2
                               when 'Purchase Order'
                                 3
-                              else 0
                               end
       order.save validate: false
     end
