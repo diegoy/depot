@@ -1,7 +1,10 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  name: MyString
+check:
+  name: Check
 
-two:
-  name: MyString
+credit_card:
+  name: Credit Card
+
+puchase_order:
+  name: Purchase Order
