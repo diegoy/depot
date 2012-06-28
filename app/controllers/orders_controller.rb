@@ -1,3 +1,5 @@
+require 'date'
+
 class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
@@ -48,7 +50,7 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(params[:order])
     @order.add_line_items_from_cart(current_cart)
-
+    @order.ship_date = Date.today
     respond_to do |format|
       if @order.save
         Cart.destroy(session[:cart_id])
@@ -71,6 +73,7 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.update_attributes(params[:order])
+        OrderNotifier.shipped(@order).deliver unless not @order.ship_date_changed?
         format.html { redirect_to @order, notice: 'Order was successfully updated.' }
         format.json { head :no_content }
       else

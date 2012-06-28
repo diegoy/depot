@@ -22,4 +22,9 @@ class OrderNotifier < ActionMailer::Base
 
     mail to: order.email, subject: 'Pragmatic Store Order Shipped'
   end
+
+  def error(message)
+    @message = message
+    mail to: "developer@example.com", subject: 'Server Error'
+  end
 end
