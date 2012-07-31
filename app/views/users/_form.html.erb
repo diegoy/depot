@@ -29,10 +29,12 @@
         <%= f.password_field :password_confirmation, size: 40 %>
       </div>
 
-      <div>
-        <%= f.label :current_password, 'Current' %>:
-        <%= f.password_field :current_password, size:40 %>
-      </div>
+      <% if params[:action] == :edit  %>
+        <div>
+          <%= f.label :current_password, 'Current' %>:
+          <%= f.password_field :current_password, size:40 %>
+        </div>
+      <% end %>
 
       <div>
         <%= f.submit %>

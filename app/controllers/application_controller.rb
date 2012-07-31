@@ -23,6 +23,11 @@ class ApplicationController < ActionController::Base
     protected
 
       def authorize
+        if User.count.zero?
+          redirect_to new_user_path unless session[:new_user]
+          return
+        end
+
         unless User.find_by_id(session[:user_id])
           redirect_to login_url, notice: "Please log in"
         end

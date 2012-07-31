@@ -5,8 +5,13 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by_name(params[:name])
-    if user and user.authenticate(params[:password])
-      session[:user_id] = user.id
+    if not User.exists?
+      session[:new_user] = true
+      redirect_to new_user_path
+    elsif user and user.authenticate(params[:password])
+      session[:user_id] = if user then user.id
+                          else User.new(:name => "temporary")
+                          end
       redirect_to admin_url
     else 
       redirect_to login_url, alert: "Invalid user/password combination"
