@@ -29,7 +29,18 @@ class ApplicationController < ActionController::Base
         end
 
         unless User.find_by_id(session[:user_id])
-          redirect_to login_url, notice: "Please log in"
+          if request.format == Mime::HTML
+            redirect_to login_url, notice: "Please log in"
+          elsif
+            if user = authenticate_with_http_basic do |u, p|
+                  finded_user = User.find_by_name(u)
+                  finded_user.authenticate(p) if finded_user
+              end
+              session[:user_id] = user.id
+            elsif
+              render :status => 403, :text => "login failed" and return
+            end
+          end
         end
       end
 end
