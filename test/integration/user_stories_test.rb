@@ -5,6 +5,13 @@ class UserStoriesTest < ActionDispatch::IntegrationTest
   fixtures :products
   fixtures :payment_types
 
+  def make_login
+    get login_url
+    post_via_redirect login_url,
+      name: "dave",
+      password: "secret"
+  end
+
   test "buying a product" do
     LineItem.delete_all
     Order.delete_all
@@ -20,6 +27,8 @@ class UserStoriesTest < ActionDispatch::IntegrationTest
     cart = Cart.find(session[:cart_id])
     assert_equal 1, cart.line_items.size
     assert_equal ruby_book, cart.line_items[0].product
+
+    make_login
 
     get "/orders/new"
     assert_response :success
@@ -60,6 +69,8 @@ class UserStoriesTest < ActionDispatch::IntegrationTest
   test "access invalid cart number" do
     Cart.delete_all
 
+    make_login
+
     get "/carts/1"
     assert_response :redirect
     assert_template "/"
@@ -68,5 +79,13 @@ class UserStoriesTest < ActionDispatch::IntegrationTest
     assert_equal ["developer@example.com"], mail.to
     assert_equal "from@example.com", mail[:from].value
     assert_equal "Server Error", mail.subject
+  end
+
+  test "should ask for login" do
+    delete logout_path
+    assert_redirected_to store_url
+
+    get "/admin"
+    assert_redirected_to login_url
   end
 end
