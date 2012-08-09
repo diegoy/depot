@@ -5,7 +5,14 @@ class UsersControllerTest < ActionController::TestCase
     @input_attributes = {
       name: "sam",
       password: "private",
-      password_confirmation: "private"
+      password_confirmation: "private",
+    }
+
+    @input_attributes_for_update = {
+      name: "sam",
+      password: "private",
+      password_confirmation: "private",
+      current_password: "secret"
     }
 
     @user = users(:one)
@@ -41,7 +48,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should update user" do
-    put :update, id: @user, user: @input_attributes
+    put :update, id: @user, user: @input_attributes_for_update
     assert_redirected_to users_path
   end
 
