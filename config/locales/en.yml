@@ -14,6 +14,16 @@ en:
       add_html: "Add to Cart"
 
   carts:
-    title: "Your Cart"
-    empty: "Empty Cart"
-    checkout: "Checkout"
+    cart:
+      title: "Your Cart"
+      empty: "Empty Cart"
+      checkout: "Checkout"
+
+  number:
+    currency:
+      format:
+        unit: "$"
+        precision: 2
+        separator: "."
+        delimiter: ","
+        format: "%u%n"
