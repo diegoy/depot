@@ -12,7 +12,7 @@ class Product < ActiveRecord::Base
   }
   validates :image_url, uniqueness: true
   validate  :must_not_exceed_one_million
-  
+
 
   private
     #ensure that there are no line items referencing this product

@@ -12,7 +12,8 @@
       <dl>
         <dt><%= product.title %></dt>
         <dd><%= truncate(strip_tags(product.description),
-               length: 80) %></dd>
+          length: 80) %></dd>
+          <dd><%= product.locale %></dd>
       </dl>
     </td>
 

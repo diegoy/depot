@@ -27,6 +27,10 @@
     <%= f.label :price %><br />
     <%= f.text_field :price %>
   </div>
+  <div class="field">
+    <%= f.label :locale %><br />
+    <%= f.select :locale, options_for_select(Languages, I18n.locale.to_s)%>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -4,10 +4,10 @@ class StoreController < ApplicationController
     if params[:set_locale]
       redirect_to store_path(locale: params[:set_locale])
     else
-      @products = Product.order(:title)
+      @products = Product.where(locale: I18n.locale).order(:title)
       @cart = current_cart
     end
-    @products = Product.order(:title)
+    @products = Product.where(locale: I18n.locale).order(:title)
     @cart = current_cart
     if session[:counter].nil?
       session[:counter] = 0
